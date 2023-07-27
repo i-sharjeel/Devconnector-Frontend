@@ -81,7 +81,7 @@ export async function getUserProfile() {
 
 export async function getAllProfiles() {
     try {
-        const res = await axios.get('/api/profile')
+        const res = await axios.get('https://devconnector-backend.up.railway.app//api/profile')
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
