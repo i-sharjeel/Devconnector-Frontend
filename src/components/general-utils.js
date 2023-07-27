@@ -1,4 +1,11 @@
 import axios from 'axios'
+
+let hostname = ""
+let path = window.location.pathname.includes('localhost');
+if (!path) {
+    hostname = "https://devconnector-backend.up.railway.app";
+}
+
 const config = {
     headers: {
         'Content-Type': 'application/json'
@@ -17,7 +24,7 @@ export function getRandomString(length) {
 
 export async function createUser(body) {
     try {
-        const res = await axios.post('/api/users', body, config);
+        const res = await axios.post(`${hostname}/api/users`, body, config);
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -33,7 +40,7 @@ export async function createUser(body) {
 
 export async function loginUser(body) {
     try {
-        const res = await axios.post('/api/auth', body, config);
+        const res = await axios.post(`${hostname}/api/auth`, body, config);
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -50,7 +57,6 @@ export async function loginUser(body) {
 export async function setAuthToken(token) {
     if (token) {
         axios.defaults.headers.common['x-auth-token'] = token;
-        console.log("token: ", token)
     }
     else {
         delete axios.defaults.headers.common['x-auth-token'];
@@ -59,7 +65,7 @@ export async function setAuthToken(token) {
 
 export async function authenticateUser() {
     try {
-        const res = await axios.get('/api/auth')
+        const res = await axios.get(`${hostname}/api/auth`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -70,7 +76,7 @@ export async function authenticateUser() {
 
 export async function getUserProfile() {
     try {
-        const res = await axios.get('/api/profile/me')
+        const res = await axios.get(`${hostname}/api/profile/me`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -81,7 +87,7 @@ export async function getUserProfile() {
 
 export async function getAllProfiles() {
     try {
-        const res = await axios.get('https://devconnector-backend.up.railway.app/api/profile')
+        const res = await axios.get(`${hostname}/api/profile`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -92,7 +98,7 @@ export async function getAllProfiles() {
 
 export async function getProfileByUserID(id) {
     try {
-        const res = await axios.get(`/api/profile/user/${id}`)
+        const res = await axios.get(`${hostname}/api/profile/user/${id}`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -103,7 +109,7 @@ export async function getProfileByUserID(id) {
 
 export async function getGithubRepos(username) {
     try {
-        const res = await axios.get(`/api/profile/github/${username}`)
+        const res = await axios.get(`${hostname}/api/profile/github/${username}`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -114,7 +120,7 @@ export async function getGithubRepos(username) {
 
 export async function createUserProfile(formData) {
     try {
-        const res = await axios.post('/api/profile', formData, config)
+        const res = await axios.post(`${hostname}/api/profile`, formData, config)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -125,7 +131,7 @@ export async function createUserProfile(formData) {
 
 export async function addUserExperience(formData) {
     try {
-        const res = await axios.put('/api/profile/experience', formData, config)
+        const res = await axios.put(`${hostname}/api/profile/experience`, formData, config)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -136,7 +142,7 @@ export async function addUserExperience(formData) {
 
 export async function addUserEducation(formData) {
     try {
-        const res = await axios.put('/api/profile/education', formData, config)
+        const res = await axios.put(`${hostname}/api/profile/education`, formData, config)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -147,7 +153,7 @@ export async function addUserEducation(formData) {
 
 export async function deleteUserExperience(id) {
     try {
-        const res = await axios.delete(`/api/profile/experience/${id}`)
+        const res = await axios.delete(`${hostname}/api/profile/experience/${id}`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -158,7 +164,7 @@ export async function deleteUserExperience(id) {
 
 export async function deleteUserEducation(id) {
     try {
-        const res = await axios.delete(`/api/profile/education/${id}`)
+        const res = await axios.delete(`${hostname}/api/profile/education/${id}`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -169,7 +175,7 @@ export async function deleteUserEducation(id) {
 
 export async function deleteUserAccount() {
     try {
-        const res = await axios.delete(`/api/profile`)
+        const res = await axios.delete(`/${hostname}api/profile`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -180,7 +186,7 @@ export async function deleteUserAccount() {
 
 export async function fetchPosts() {
     try {
-        const res = await axios.get(`/api/posts`)
+        const res = await axios.get(`${hostname}/api/posts`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -192,7 +198,7 @@ export async function fetchPosts() {
 
 export async function fetchPost(id) {
     try {
-        const res = await axios.get(`/api/posts/${id}`)
+        const res = await axios.get(`${hostname}/api/posts/${id}`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -203,7 +209,7 @@ export async function fetchPost(id) {
 
 export async function likePost(id) {
     try {
-        const res = await axios.put(`/api/posts/like/${id}`);
+        const res = await axios.put(`${hostname}/api/posts/like/${id}`);
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -214,7 +220,7 @@ export async function likePost(id) {
 
 export async function unlikePost(id) {
     try {
-        const res = await axios.put(`/api/posts/unlike/${id}`);
+        const res = await axios.put(`${hostname}/api/posts/unlike/${id}`);
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -225,7 +231,7 @@ export async function unlikePost(id) {
 
 export async function deleteOnePost(id) {
     try {
-        const res = await axios.delete(`/api/posts/${id}`);
+        const res = await axios.delete(`${hostname}/api/posts/${id}`);
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -236,7 +242,7 @@ export async function deleteOnePost(id) {
 
 export async function createPost(formData) {
     try {
-        const res = await axios.post('/api/posts', formData, config)
+        const res = await axios.post(`${hostname}/api/posts`, formData, config)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -247,7 +253,7 @@ export async function createPost(formData) {
 
 export async function createComment(postID, formData) {
     try {
-        const res = await axios.post(`/api/posts/comment/${postID}`, formData, config)
+        const res = await axios.post(`${hostname}/api/posts/comment/${postID}`, formData, config)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
@@ -258,7 +264,7 @@ export async function createComment(postID, formData) {
 
 export async function deleteComment(postID, commentID) {
     try {
-        const res = await axios.delete(`/api/posts/comment/${postID}/${commentID}`)
+        const res = await axios.delete(`${hostname}/api/posts/comment/${postID}/${commentID}`)
         if (res && res.data) {
             return { output: res.data, type: "success" };
         }
